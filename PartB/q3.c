@@ -1,6 +1,8 @@
+// Deadlock avoidance by chnaging call sequence
 #include <stdio.h>
 #include <mpi.h>
-int main() {
+int main() 
+{
     int world_size,world_rank;
     MPI_Init(NULL, NULL);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -13,17 +15,21 @@ int main() {
     int number;
     if (world_rank == 0) {
         number = 0;
+        // Process 0 sends a synchronous message to Process 1
         MPI_Ssend(&number, 1, MPI_INT, 1, 0, MPI_COMM_WORLD);
+        // Blocking receive from process 1
         MPI_Recv(&number, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         printf("Process 0 received number %d from process 1\n", number);
-    } else if (world_rank == 1) {
+    }
+    else if (world_rank == 1)
+    {
         number = 1;
+        // Blocking receive from process 0
         MPI_Recv(&number, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        // Process 1 sends a synchronous message to Process 0
         MPI_Ssend(&number, 1, MPI_INT, 0, 0, MPI_COMM_WORLD);
         printf("Process 1 sent number %d to process 0\n", number);
     }
     MPI_Finalize();
     return 0;
 }
-//observe it is mpi_ssend (synchronous call) , mpi_send is blocking call may lead to deadlock
-// https://iamsorush.com/posts/mpi-send-types/ read this for futher info
