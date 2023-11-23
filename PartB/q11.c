@@ -27,3 +27,12 @@ int main()
     MPI_Finalize();
     return 0;
 }
+/* MPI_Reduce() - 
+    &data: Address of the data to be reduced.
+    &max_val: Address the result of the reduction will be stored
+    1: The number of elements in the send buffer.
+    MPI_INT: Data type of the elements in the send buffer (in this case, integers).
+    MPI_MAX: Specifies the operation to be applied during the reduction
+    0: Root, the rank of the root process that will receive the result. Only the root process needs the receive buffer
+    MPI_COMM_WORLD: Communicator, a group of processes that can communicate with each other.
+*/
