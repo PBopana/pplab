@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <mpi.h>
-int main() {
+int main()
+{
     int world_rank;
     MPI_Init(NULL, NULL);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
@@ -16,7 +17,8 @@ int main() {
     // Reduce to find the product of all values
     MPI_Reduce(&data, &prod, 1, MPI_INT, MPI_PROD, 0, MPI_COMM_WORLD);
     // The root process prints the results
-    if (world_rank == 0) {
+    if (world_rank == 0)
+    {
         printf("Max value: %d\n", max_val);
         printf("Min value: %d\n", min_val);
         printf("Sum of all ranks: %d\n", sum);
