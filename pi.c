@@ -9,13 +9,18 @@ int main(int argc, char const *argv[])
     int i;
 
     double start=omp_get_wtime();
+    
+    // OpenMP parallelized loop for computing pi
     #pragma omp parallel for private(i)
     for(int i=0;i<n;i++)
     {
+        // Calculate alternating series term
         double num = i%2==0?1:-1;
+        // Update pi using the Leibniz formula
         pi+=(num/(2*i+1));
     }
-
+    
+    // Multiply pi by 4 to get the final approximation
     pi*=4;
     double stop=omp_get_wtime();
 
