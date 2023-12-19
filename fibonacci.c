@@ -13,7 +13,7 @@ int fib(int n)
         first=fib(n-1);
 
         #pragma omp task shared(second) firstprivate(n)
-        second=fib(n-1);
+        second=fib(n-2);
 
         #pragma omp taskwait
         return first+second;
